@@ -21,6 +21,7 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataCardinalityRestriction;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
 import org.semanticweb.owlapi.model.OWLDataMinCardinality;
@@ -30,20 +31,26 @@ import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLNaryClassAxiom;
+import org.semanticweb.owlapi.model.OWLObjectCardinalityRestriction;
 import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
 import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
 import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
 import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyCharacteristicAxiom;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLQuantifiedDataRestriction;
+import org.semanticweb.owlapi.model.OWLQuantifiedObjectRestriction;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 import org.semanticweb.owlapi.model.SWRLAtom;
@@ -165,6 +172,7 @@ public class Transformer {
 		mappingProperties.generateAllPropertyNames();
 	}
 
+	boolean removeAxioms = false;
 	/**
 	 * Transform a RefOntoUML.Model to OWL
 	 * 
@@ -266,14 +274,14 @@ public class Transformer {
 		}
 
 		try{
-			processDisjointClass();
+			if(!removeAxioms) processDisjointClass();
 		}catch (Exception e){
 			errors = "";
 			throw new Exception("Error: An unexpected exception happened when creating the disjointness of the Classes;\n");
 		}
 
 		try{
-			processDisjointAssociation();
+			if(!removeAxioms) processDisjointAssociation();
 		}catch (Exception e){
 			errors = "";
 			throw new Exception("Error: An unexpected exception happened when creating the disjointness of the Associations;\n");
