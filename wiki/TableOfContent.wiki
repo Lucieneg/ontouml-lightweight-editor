@@ -15,4 +15,3 @@
     * [Guide Study Guide]
     * OntoUML Models
       * [Models Published]
-      * [Unpublished Unpublished]
